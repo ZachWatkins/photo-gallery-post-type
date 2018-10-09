@@ -74,6 +74,12 @@ add_action( 'init', function(){
     )
   );
 
+  // Add album list shortcode
+  $display_albums_shortcode = new \PhotoPosts\AlbumsShortcode(
+    $post_type_slug,
+    PHOTOPOSTS_TEMPLATE_PATH . '/shortcode-albums.php'
+  );
+
 });
 
 // Queue assets

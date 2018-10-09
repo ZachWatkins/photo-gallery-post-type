@@ -1,9 +1,15 @@
 /* Post Type: Photo gallery ZW
  */
 
-.archive .photo-gallery-zw {
+.archive .photo-gallery-zw,
+.photo-albums-listing .item {
 	display: inline-block;
 	width: 49%;
 	box-sizing: border-box;
 	vertical-align: top;
+}
+
+.photo-albums-listing .album-name {
+	display: inline-block;
+	margin-top: 1rem;
 }
