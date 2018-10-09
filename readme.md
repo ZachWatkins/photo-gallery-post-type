@@ -1,53 +1,31 @@
-# Majors and Degrees Custom Post Type
+# Photo Gallery Post Type
 
-This plugin adds the "Majors and Degrees" custom post type and related shortcodes to your site.
+This plugin adds the "Photos" custom post type and related shortcodes to your site.
 
-## Post
-
-### Custom Fields
-**Header Image**
-- Image above the main post content. Minimum width 1110px, maximum height 340px.
-
-**About the Degree**
-- Description of the degree.
-
-**Careers**
-- Careers related to the degree.
-
-**Courses**
-- Course requirements for the degree.
-
+## Album Taxonomy
 
 ### Taxonomies
-**Department**
-- This taxonomy identifies the name, ranking, and contact information of the department. This information is displayed in the right column of a degree's single post page.
+**Album**
+- This taxonomy identifies the name of the photo's album
+- On the taxonomy edit page you will see a Thumbnail custom field which identifies the image preview for the album. 400px by 400px.
 
-**Degree Type**
-- This taxonomy identifies the type of degree (Major, Minor, Certificate, etc).
+**Color**
+- This taxonomy identifies the color used in the photo, which some users may find helpful.
 
-**Keyword**
-- This taxonomy identifies different words a visitor might associate with the degree. They are used by the search form shortcode.
+**Subject**
+- This taxonomy identifies the subject matter of the photo.
+
+**Size**
+- This taxonomy identifies the size keyword for the photo.
+
+**Orientation**
+- This taxonomy identifies the photo's orientation.
 
 
 ## Shortcodes
 
-There are two shortcodes added by this plugin: [display_majors_and_degrees] and [search_form_majors_and_degrees]. The display shortcode displays a list of post titles filtered by optional parameters. The search form shortcode displays a search form that allows a user to search through this plugin's custom posts by their keyword taxonomy.
-
-
-### [display_majors_and_degrees]
-
-Parameters: departments, degree_types, keywords
-This shortcode displays a list of post titles from the "Majors and Degrees" custom post type. Its parameters use comma-separated lists of slugs for their corresponding post taxonomy. Example:
-[display_majors_and_degrees departments="recreation-park-and-tourism-sciences,animal-science" degree_types="certificate"]
-
-
-### [search_form_majors_and_degrees]
-
-Parameters: (none)
-This shortcode displays a search form that can be used to search through "Majors and Degrees" posts by their keyword taxonomy.
-
+There are two shortcodes added by this plugin: [display_photo_gallery_zw] and [display_photo_gallery_zw_albums]. The display shortcode displays a list of post titles filtered by optional parameters. The display albums shortcode displays all albums with their name and thumbnail custom field.
 
 ## Developer Notes
-Run the following commands on this plugin's main directory:
+Run the following command on this plugin's main directory to set up:
 composer update
-composer install
