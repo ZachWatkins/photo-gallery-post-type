@@ -1,0 +1,21 @@
+{
+    "name": "photo-gallery-post-type",
+    "description": "Photo gallery plugin using custom post types and taxonomies",
+    "license": "GPL2+",
+    "authors": [
+        {
+            "name": "Zachary Watkins",
+            "email": "watkinza@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+    },
+	"require-dev": {
+	},
+    "autoload": {
+        "psr-4": {
+            "PhotoPosts\\": "src"
+        }
+    }
+}

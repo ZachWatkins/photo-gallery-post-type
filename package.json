@@ -1,0 +1,19 @@
+{
+  "name": "photo-gallery-post-type",
+  "version": "1.0.0",
+  "description": "Photo gallery plugin using custom post types and taxonomies",
+  "main": "photo-gallery-post-type.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZachWatkins/photo-gallery-post-type.git"
+  },
+  "author": "Zachary Watkins",
+  "license": "GPL-2.0+",
+  "bugs": {
+    "url": "https://github.com/ZachWatkins/photo-gallery-post-type/issues"
+  },
+  "homepage": "https://github.com/ZachWatkins/photo-gallery-post-type#readme"
+}

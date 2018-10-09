@@ -1,0 +1,9 @@
+/* Post Type: Photo gallery ZW
+ */
+
+.archive .photo-gallery-zw {
+	display: inline-block;
+	width: 49%;
+	box-sizing: border-box;
+	vertical-align: top;
+}
