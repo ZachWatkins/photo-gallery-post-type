@@ -30,7 +30,7 @@ add_action( 'init', function(){
   // Add taxonomies
   $taxonomy_album = new \PhotoPosts\Taxonomy(
     'Album', 'album', $post_type_slug, $namespace,
-    array('hierarchical' => false, 'show_admin_column' => true) );
+    array('hierarchical' => true, 'show_admin_column' => true) );
   
   $taxonomy_color = new \PhotoPosts\Taxonomy(
     'Color', 'color', $post_type_slug, $namespace,

@@ -18,11 +18,6 @@ if( !empty( $albums ) ){
 			$term->title
 		);
 
-		// echo '<pre>';
-		// print_r($term);
-		// print_r($album_fields);
-		// echo '</pre>';
-
 		?><h2><a href="<?php echo $album['link'] ?>"><?php echo $album['thumbnail'] ?><span class="album-name"><?php echo $term->name; ?></span></a></h2><?php
 
 		?></div><?php

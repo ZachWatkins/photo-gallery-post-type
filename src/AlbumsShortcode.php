@@ -11,7 +11,7 @@ class AlbumsShortcode {
 	protected $post_type;
 	protected $template;
 	protected $name = 'display_';
-	protected $atts;
+	protected $atts = array();
 	protected $taxonomy = 'album';
 
 	/**
@@ -48,7 +48,8 @@ class AlbumsShortcode {
 
 		// $albums = Shortcode_Post_Query::get_posts( $this->post_type, $atts, $this->taxonomy );
 		$albums = get_terms( array(
-			'taxonomy' => 'album'
+			'taxonomy' => 'album',
+			'parent' => 0
 		) );
 
 		ob_start();

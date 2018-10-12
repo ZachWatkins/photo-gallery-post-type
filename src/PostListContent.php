@@ -10,8 +10,10 @@ class PostListContent {
 
 		$this->slug = $slug;
 
-		add_filter( 'the_content', array( $this, 'content' ) );
+		add_filter( 'the_content', array( $this, 'content' ), 10 );
 		add_filter( 'post_thumbnail_size', array( $this, 'thumbnail_size' ), 10, 2 );
+		// add_filter( 'get_the_archive_title', array( $this, '' ) );
+		add_filter( 'get_the_archive_description', array( $this, 'show_child_album_thumbnails' ), 11 );
 
 	}
 
@@ -84,6 +86,32 @@ class PostListContent {
 		}
 
 		return $size;
+
+	}
+
+	public function show_child_album_thumbnails($content){
+
+		if(is_tax('album')){
+
+			$album_obj = get_queried_object();
+			$term_id = $album_obj->term_id;
+			$children = get_term_children($term_id, 'album');
+
+			if( !empty($children) ){
+
+				$child_albums = array();
+
+				foreach ($children as $child_id) {
+					$child_name = get_term($child_id, 'album')->name;
+					$child_albums[] = '<a href="' . get_term_link($child_id) . '">' . $child_name . '</a>';
+				}
+				
+				$content .= sprintf('<p>Child albums: %s</p>', implode('<br>', $child_albums) );
+			}
+
+		}
+
+		return $content;
 
 	}
 
