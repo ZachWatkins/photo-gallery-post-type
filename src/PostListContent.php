@@ -24,14 +24,16 @@ class PostListContent {
 		if( $post->post_type == $this->slug && is_archive() ){
 
 			$terms = get_the_taxonomies();
+
+			$desc = $content;
 			
 			$size = '';
-			if( $terms['size'] ){
+			if( array_key_exists('size', $terms) ){
 				$size = preg_replace('/^Sizes: |\.$/', '', $terms['size']);
 			}
 
 			$orientation = '';
-			if( $terms['orientation'] ){
+			if( array_key_exists('orientation', $terms) ){
 				$orientation = preg_replace('/^Orientations: |\.$/', '', $terms['orientation']);
 			}
 
@@ -51,21 +53,23 @@ class PostListContent {
 			}
 
 			$subject = '';
-			if( $terms['subject'] ){
+			if( array_key_exists('subject', $terms) ){
 				$subject = '<div class="detail">Subject(s): ' . preg_replace('/^Subjects: |\.$/', '', $terms['subject']) . '</div>';
 			}
 
 			$color = '';
-			if( $terms['color'] ){
+			if( array_key_exists('color', $terms) ){
 				$color = '<div class="detail">Colors: ' . preg_replace('/^Colors: |\.$/', '', $terms['color']) . '</div>';
 			}
 
-			$content = sprintf('%s%s%s%s  ',
+			$content = sprintf('%s%s%s%s',
 				$dimensions,
 				$subject,
 				$color,
-				$content
+				$desc
 			);
+
+			$content = apply_filters( 'photo-gallery-post-archive-content', $content, $desc, $dimensions, $subject, $color );
 
 		}
 
