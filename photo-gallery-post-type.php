@@ -17,6 +17,7 @@ define( 'PHOTOPOSTS_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'PHOTOPOSTS_DIR_FILE', __FILE__ );
 define( 'PHOTOPOSTS_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'PHOTOPOSTS_TEMPLATE_PATH', PHOTOPOSTS_DIR_PATH . 'view' );
+define( 'PHOTOPOSTS_NAMESPACE', 'pgpt' );
 
 if( !defined( 'PHOTOPOSTS_POST_TYPE_SLUG' ) ){
   define( 'PHOTOPOSTS_POST_TYPE_SLUG', 'photo-gallery-zw' );
@@ -25,46 +26,46 @@ if( !defined( 'PHOTOPOSTS_POST_TYPE_SLUG' ) ){
 add_image_size( 'photo-posts-preview', 400, 400, array( 'center', 'center' ) );
 
 // Code for plugins
-register_deactivation_hook( __FILE__, 'photoposts_flush_rewrites' );
+register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
 register_activation_hook( __FILE__, 'photoposts_flush_rewrites' );
 function photoposts_flush_rewrites() {
-  flush_rewrite_rules();
-}
-
-add_action( 'init', function(){
-
-  $namespace = 'pgpt';
 
   // Add taxonomies
   $taxonomy_album = new \PhotoPosts\Taxonomy(
-    'Album', 'album', PHOTOPOSTS_POST_TYPE_SLUG, $namespace,
+    'Album', 'album', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => false, 'show_admin_column' => true) );
 
   $taxonomy_color = new \PhotoPosts\Taxonomy(
-    'Color', 'color', PHOTOPOSTS_POST_TYPE_SLUG, $namespace,
+    'Color', 'color', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => false) );
 
   $taxonomy_subject = new \PhotoPosts\Taxonomy(
-    'Subject', 'subject', PHOTOPOSTS_POST_TYPE_SLUG, $namespace,
+    'Subject', 'subject', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => false) );
 
   $taxonomy_size = new \PhotoPosts\Taxonomy(
-    'Size', 'size', PHOTOPOSTS_POST_TYPE_SLUG, $namespace,
+    'Size', 'size', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => false) );
 
   $taxonomy_orientation = new \PhotoPosts\Taxonomy(
-    'Orientation', 'orientation', PHOTOPOSTS_POST_TYPE_SLUG, $namespace,
+    'Orientation', 'orientation', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => false) );
 
   // Add custom post type
   $post_type = new \PhotoPosts\PostType(
-    'Photo', PHOTOPOSTS_POST_TYPE_SLUG, $namespace, array(
+    'Photo', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE, array(
       'album', 'color', 'size', 'orientation', 'subject'
     ), 'dashicons-portfolio',
     array(
       'title', 'editor', 'thumbnail', 'revisions', 'genesis-seo', 'genesis-layouts', 'genesis-scripts'
     )
   );
+
+  flush_rewrite_rules();
+
+}
+
+add_action( 'init', function(){
 
   $post_list_content = new \PhotoPosts\PostListContent( PHOTOPOSTS_POST_TYPE_SLUG );
   $single_post_content = new \PhotoPosts\SinglePostContent( PHOTOPOSTS_POST_TYPE_SLUG );
