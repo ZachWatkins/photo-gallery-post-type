@@ -27,8 +27,14 @@ add_image_size( 'photo-posts-preview', 400, 400, array( 'center', 'center' ) );
 
 // Code for plugins
 register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
-register_activation_hook( __FILE__, 'photoposts_flush_rewrites' );
-function photoposts_flush_rewrites() {
+register_activation_hook( __FILE__, 'photoposts_activation' );
+function photoposts_activation() {
+  if ( ! get_option( 'photoposts_flush_rewrite_rules_flag' ) ) {
+    add_option( 'photoposts_flush_rewrite_rules_flag', true );
+  }
+}
+
+add_action( 'init', function(){
 
   // Add taxonomies
   $taxonomy_album = new \PhotoPosts\Taxonomy(
@@ -61,11 +67,10 @@ function photoposts_flush_rewrites() {
     )
   );
 
-  flush_rewrite_rules();
-
-}
-
-add_action( 'init', function(){
+  if ( get_option( 'photoposts_flush_rewrite_rules_flag' ) ) {
+      flush_rewrite_rules();
+      delete_option( 'photoposts_flush_rewrite_rules_flag' );
+  }
 
   $post_list_content = new \PhotoPosts\PostListContent( PHOTOPOSTS_POST_TYPE_SLUG );
   $single_post_content = new \PhotoPosts\SinglePostContent( PHOTOPOSTS_POST_TYPE_SLUG );
