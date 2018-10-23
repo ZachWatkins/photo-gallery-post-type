@@ -45,6 +45,9 @@ class PostType {
 		$args = array(
 			'labels' => $labels,
 			'public' => true,
+			'rewrite' => array(
+				'slug' => $slug
+			),
 			'supports' => $supports,
 			'has_archive' => true,
 			'menu_icon' => $icon,

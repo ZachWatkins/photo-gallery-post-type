@@ -24,9 +24,15 @@ if( !defined( 'PHOTOPOSTS_POST_TYPE_SLUG' ) ){
 
 add_image_size( 'photo-posts-preview', 400, 400, array( 'center', 'center' ) );
 
+// Code for plugins
+register_deactivation_hook( __FILE__, 'photoposts_flush_rewrites' );
+register_activation_hook( __FILE__, 'photoposts_flush_rewrites' );
+function photoposts_flush_rewrites() {
+  flush_rewrite_rules();
+}
+
 add_action( 'init', function(){
 
-  // flush_rewrite_rules();
   $namespace = 'pgpt';
 
   // Add taxonomies
