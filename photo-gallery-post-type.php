@@ -20,7 +20,7 @@ define( 'PHOTOPOSTS_TEMPLATE_PATH', PHOTOPOSTS_DIR_PATH . 'view' );
 define( 'PHOTOPOSTS_NAMESPACE', 'pgpt' );
 
 if( !defined( 'PHOTOPOSTS_POST_TYPE_SLUG' ) ){
-  define( 'PHOTOPOSTS_POST_TYPE_SLUG', 'photo-gallery-zw' );
+  define( 'PHOTOPOSTS_POST_TYPE_SLUG', 'photo-post' );
 }
 
 add_image_size( 'photo-posts-preview', 400, 400, array( 'center', 'center' ) );
