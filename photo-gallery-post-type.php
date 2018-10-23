@@ -18,39 +18,41 @@ define( 'PHOTOPOSTS_DIR_FILE', __FILE__ );
 define( 'PHOTOPOSTS_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'PHOTOPOSTS_TEMPLATE_PATH', PHOTOPOSTS_DIR_PATH . 'view' );
 
+if( !defined( 'PHOTOPOSTS_POST_TYPE_SLUG' ) ){
+  define( 'PHOTOPOSTS_POST_TYPE_SLUG', 'photo-gallery-zw' );
+}
+
 add_image_size( 'photo-posts-preview', 400, 400, array( 'center', 'center' ) );
 
 add_action( 'init', function(){
 
   // flush_rewrite_rules();
-
-  $post_type_slug = 'photo-gallery-zw';
   $namespace = 'pgpt';
 
   // Add taxonomies
   $taxonomy_album = new \PhotoPosts\Taxonomy(
-    'Album', 'album', $post_type_slug, $namespace,
+    'Album', 'album', PHOTOPOSTS_POST_TYPE_SLUG, $namespace,
     array('hierarchical' => false, 'show_admin_column' => true) );
-  
+
   $taxonomy_color = new \PhotoPosts\Taxonomy(
-    'Color', 'color', $post_type_slug, $namespace,
+    'Color', 'color', PHOTOPOSTS_POST_TYPE_SLUG, $namespace,
     array('hierarchical' => false) );
-  
+
   $taxonomy_subject = new \PhotoPosts\Taxonomy(
-    'Subject', 'subject', $post_type_slug, $namespace,
+    'Subject', 'subject', PHOTOPOSTS_POST_TYPE_SLUG, $namespace,
     array('hierarchical' => false) );
-  
+
   $taxonomy_size = new \PhotoPosts\Taxonomy(
-    'Size', 'size', $post_type_slug, $namespace,
+    'Size', 'size', PHOTOPOSTS_POST_TYPE_SLUG, $namespace,
     array('hierarchical' => false) );
-  
+
   $taxonomy_orientation = new \PhotoPosts\Taxonomy(
-    'Orientation', 'orientation', $post_type_slug, $namespace,
+    'Orientation', 'orientation', PHOTOPOSTS_POST_TYPE_SLUG, $namespace,
     array('hierarchical' => false) );
 
   // Add custom post type
   $post_type = new \PhotoPosts\PostType(
-    'Photo', $post_type_slug, $namespace, array(
+    'Photo', PHOTOPOSTS_POST_TYPE_SLUG, $namespace, array(
       'album', 'color', 'size', 'orientation', 'subject'
     ), 'dashicons-portfolio',
     array(
@@ -58,12 +60,12 @@ add_action( 'init', function(){
     )
   );
 
-  $post_list_content = new \PhotoPosts\PostListContent( $post_type_slug );
-  $single_post_content = new \PhotoPosts\SinglePostContent( $post_type_slug );
+  $post_list_content = new \PhotoPosts\PostListContent( PHOTOPOSTS_POST_TYPE_SLUG );
+  $single_post_content = new \PhotoPosts\SinglePostContent( PHOTOPOSTS_POST_TYPE_SLUG );
 
   // Add custom post type list shortcode
   $display_posts_shortcode = new \PhotoPosts\PostsShortcode(
-    $post_type_slug,
+    PHOTOPOSTS_POST_TYPE_SLUG,
     PHOTOPOSTS_TEMPLATE_PATH . '/shortcode-posts.php',
     array(
       'album' => array(
@@ -76,7 +78,7 @@ add_action( 'init', function(){
 
   // Add album list shortcode
   $display_albums_shortcode = new \PhotoPosts\AlbumsShortcode(
-    $post_type_slug,
+    PHOTOPOSTS_POST_TYPE_SLUG,
     PHOTOPOSTS_TEMPLATE_PATH . '/shortcode-albums.php'
   );
 

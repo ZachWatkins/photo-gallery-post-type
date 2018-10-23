@@ -45,10 +45,6 @@ class PostType {
 		$args = array(
 			'labels' => $labels,
 			'public' => true,
-			'rewrite' => array(
-				'with_front' => false,
-				'slug' => $slug
-			),
 			'supports' => $supports,
 			'has_archive' => true,
 			'menu_icon' => $icon,
