@@ -46,7 +46,6 @@ class PostType {
 			'labels' => $labels,
 			'public' => true,
 			'rewrite' => array(
-				'with_front' => false,
 				'slug' => $slug
 			),
 			'supports' => $supports,

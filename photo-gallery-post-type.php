@@ -17,40 +17,55 @@ define( 'PHOTOPOSTS_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'PHOTOPOSTS_DIR_FILE', __FILE__ );
 define( 'PHOTOPOSTS_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'PHOTOPOSTS_TEMPLATE_PATH', PHOTOPOSTS_DIR_PATH . 'view' );
+define( 'PHOTOPOSTS_NAMESPACE', 'pgpt' );
+
+if( !defined( 'PHOTOPOSTS_POST_TYPE_SLUG' ) ){
+  define( 'PHOTOPOSTS_POST_TYPE_SLUG', 'photo-post' );
+}
 
 add_image_size( 'photo-posts-preview', 400, 400, array( 'center', 'center' ) );
 
+// Code for plugins
+register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
+register_activation_hook( __FILE__, 'photoposts_activation' );
+function photoposts_activation() {
+  if ( ! get_option( 'photoposts_flush_rewrite_rules_flag' ) ) {
+    add_option( 'photoposts_flush_rewrite_rules_flag', true );
+  }
+}
+
 add_action( 'init', function(){
-
-  // flush_rewrite_rules();
-
-  $post_type_slug = 'photo-gallery-zw';
-  $namespace = 'pgpt';
 
   // Add taxonomies
   $taxonomy_album = new \PhotoPosts\Taxonomy(
+<<<<<<< HEAD
     'Album', 'album', $post_type_slug, $namespace,
     array('hierarchical' => true, 'show_admin_column' => true) );
   
+=======
+    'Album', 'album', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
+    array('hierarchical' => false, 'show_admin_column' => true) );
+
+>>>>>>> 4beea81089f959e948532d55c4de86b710a58c6c
   $taxonomy_color = new \PhotoPosts\Taxonomy(
-    'Color', 'color', $post_type_slug, $namespace,
+    'Color', 'color', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => false) );
-  
+
   $taxonomy_subject = new \PhotoPosts\Taxonomy(
-    'Subject', 'subject', $post_type_slug, $namespace,
+    'Subject', 'subject', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => false) );
-  
+
   $taxonomy_size = new \PhotoPosts\Taxonomy(
-    'Size', 'size', $post_type_slug, $namespace,
+    'Size', 'size', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => false) );
-  
+
   $taxonomy_orientation = new \PhotoPosts\Taxonomy(
-    'Orientation', 'orientation', $post_type_slug, $namespace,
+    'Orientation', 'orientation', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => false) );
 
   // Add custom post type
   $post_type = new \PhotoPosts\PostType(
-    'Photo', $post_type_slug, $namespace, array(
+    'Photo', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE, array(
       'album', 'color', 'size', 'orientation', 'subject'
     ), 'dashicons-portfolio',
     array(
@@ -58,12 +73,17 @@ add_action( 'init', function(){
     )
   );
 
-  $post_list_content = new \PhotoPosts\PostListContent( $post_type_slug );
-  $single_post_content = new \PhotoPosts\SinglePostContent( $post_type_slug );
+  if ( get_option( 'photoposts_flush_rewrite_rules_flag' ) ) {
+      flush_rewrite_rules();
+      delete_option( 'photoposts_flush_rewrite_rules_flag' );
+  }
+
+  $post_list_content = new \PhotoPosts\PostListContent( PHOTOPOSTS_POST_TYPE_SLUG );
+  $single_post_content = new \PhotoPosts\SinglePostContent( PHOTOPOSTS_POST_TYPE_SLUG );
 
   // Add custom post type list shortcode
   $display_posts_shortcode = new \PhotoPosts\PostsShortcode(
-    $post_type_slug,
+    PHOTOPOSTS_POST_TYPE_SLUG,
     PHOTOPOSTS_TEMPLATE_PATH . '/shortcode-posts.php',
     array(
       'album' => array(
@@ -76,11 +96,35 @@ add_action( 'init', function(){
 
   // Add album list shortcode
   $display_albums_shortcode = new \PhotoPosts\AlbumsShortcode(
-    $post_type_slug,
+    PHOTOPOSTS_POST_TYPE_SLUG,
     PHOTOPOSTS_TEMPLATE_PATH . '/shortcode-albums.php'
   );
 
 });
+
+// Give developers an action hook before this post type shows a group of posts
+function before_photos_list_loop( $wp_query = null ){
+
+  if( is_admin() || is_single() ) return false;
+
+  $taxonomies = get_object_taxonomies( PHOTOPOSTS_POST_TYPE_SLUG );
+  $is_photo_post_type = $wp_query->query_vars['post_type'] === PHOTOPOSTS_POST_TYPE_SLUG;
+  $is_photo_term = in_array( $wp_query->query_vars['taxonomy'], $taxonomies );
+
+  if( !$is_photo_post_type && !$is_photo_term ){
+    return false;
+  }
+
+  $sanitized_post_type_slug = str_replace( '-', '_', PHOTOPOSTS_POST_TYPE_SLUG );
+
+  $args = array();
+  $args['type'] = $is_photo_post_type ? 'post' : 'term';
+  $args['query_object'] = $wp_query->queried_object;
+
+  do_action( 'before_' . $sanitized_post_type_slug . '_list', $args );
+
+}
+add_action( 'loop_start', 'before_photos_list_loop' );
 
 // Queue assets
 add_action( 'wp_enqueue_scripts', 'pgpt_project_register' );

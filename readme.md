@@ -17,17 +17,30 @@ This plugin adds the "Photos" custom post type and related shortcodes to your si
 
 **Size**
 - This taxonomy identifies the size keyword for the photo.
+<<<<<<< HEAD
 
 **Orientation**
 - This taxonomy identifies the photo's orientation.
 
 ## Shortcodes
+=======
+
+**Orientation**
+- This taxonomy identifies the photo's orientation.
+
+
+## Shortcodes
+
+>>>>>>> 4beea81089f959e948532d55c4de86b710a58c6c
 There are two shortcodes added by this plugin: [display_photo_gallery_zw] and [display_photo_gallery_zw_albums]. The display shortcode displays a list of post titles filtered by optional parameters. The display albums shortcode displays all albums with their name and thumbnail custom field.
 
 ## Developer Notes
 Run the following command on this plugin's main directory to set up:
 composer update
+<<<<<<< HEAD
 
 TODO: Theming
 TODO: Ensure posts returned on filter searches include sub-hierarchy posts
 TODO: Look for WP plugin or JQ plugin that provides lightbox functionality for the photos in an album
+=======
+>>>>>>> 4beea81089f959e948532d55c4de86b710a58c6c

@@ -1,7 +1,7 @@
 /* Post Type: Photo gallery ZW
  */
 
-.archive .photo-gallery-zw,
+.archive .photo-post.entry,
 .photo-albums-listing .item {
 	display: inline-block;
 	width: 49%;
