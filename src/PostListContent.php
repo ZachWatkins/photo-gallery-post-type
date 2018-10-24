@@ -127,7 +127,7 @@ class PostListContent {
 
 		$taxonomies = get_object_taxonomies( PHOTOPOSTS_POST_TYPE_SLUG );
 		$is_photo_post_type = $wp_query->query_vars['post_type'] === PHOTOPOSTS_POST_TYPE_SLUG;
-		$is_photo_term = in_array( $wp_query->query_vars['taxonomy'], $taxonomies );
+		$is_photo_term = array_key_exists('taxonomy', $wp_query->query_vars) && in_array( $wp_query->query_vars['taxonomy'], $taxonomies );
 
 		if( !$is_photo_post_type && !$is_photo_term ){
 			return false;
