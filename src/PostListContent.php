@@ -12,8 +12,10 @@ class PostListContent {
 
 		add_filter( 'the_content', array( $this, 'content' ), 10 );
 		add_filter( 'post_thumbnail_size', array( $this, 'thumbnail_size' ), 10, 2 );
-		// add_filter( 'get_the_archive_title', array( $this, '' ) );
 		add_filter( 'get_the_archive_description', array( $this, 'show_child_album_thumbnails' ), 11 );
+
+		// Give developers an action hook before this post type shows a group of posts
+		add_action( 'loop_start', array( $this, 'before_photos_list_loop' ) );
 
 	}
 
@@ -116,6 +118,28 @@ class PostListContent {
 		}
 
 		return $content;
+
+	}
+
+	public function before_photos_list_loop( $wp_query = null ){
+
+		if( is_admin() || is_single() ) return false;
+
+		$taxonomies = get_object_taxonomies( PHOTOPOSTS_POST_TYPE_SLUG );
+		$is_photo_post_type = $wp_query->query_vars['post_type'] === PHOTOPOSTS_POST_TYPE_SLUG;
+		$is_photo_term = in_array( $wp_query->query_vars['taxonomy'], $taxonomies );
+
+		if( !$is_photo_post_type && !$is_photo_term ){
+			return false;
+		}
+
+		$sanitized_post_type_slug = str_replace( '-', '_', PHOTOPOSTS_POST_TYPE_SLUG );
+
+		$args = array();
+		$args['type'] = $is_photo_post_type ? 'post' : 'term';
+		$args['query_object'] = $wp_query->queried_object;
+
+		do_action( 'before_' . $sanitized_post_type_slug . '_list', $args );
 
 	}
 

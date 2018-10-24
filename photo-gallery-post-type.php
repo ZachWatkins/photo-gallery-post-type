@@ -38,15 +38,9 @@ add_action( 'init', function(){
 
   // Add taxonomies
   $taxonomy_album = new \PhotoPosts\Taxonomy(
-<<<<<<< HEAD
-    'Album', 'album', $post_type_slug, $namespace,
-    array('hierarchical' => true, 'show_admin_column' => true) );
-  
-=======
     'Album', 'album', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => false, 'show_admin_column' => true) );
-
->>>>>>> 4beea81089f959e948532d55c4de86b710a58c6c
+  
   $taxonomy_color = new \PhotoPosts\Taxonomy(
     'Color', 'color', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => false) );
@@ -101,30 +95,6 @@ add_action( 'init', function(){
   );
 
 });
-
-// Give developers an action hook before this post type shows a group of posts
-function before_photos_list_loop( $wp_query = null ){
-
-  if( is_admin() || is_single() ) return false;
-
-  $taxonomies = get_object_taxonomies( PHOTOPOSTS_POST_TYPE_SLUG );
-  $is_photo_post_type = $wp_query->query_vars['post_type'] === PHOTOPOSTS_POST_TYPE_SLUG;
-  $is_photo_term = in_array( $wp_query->query_vars['taxonomy'], $taxonomies );
-
-  if( !$is_photo_post_type && !$is_photo_term ){
-    return false;
-  }
-
-  $sanitized_post_type_slug = str_replace( '-', '_', PHOTOPOSTS_POST_TYPE_SLUG );
-
-  $args = array();
-  $args['type'] = $is_photo_post_type ? 'post' : 'term';
-  $args['query_object'] = $wp_query->queried_object;
-
-  do_action( 'before_' . $sanitized_post_type_slug . '_list', $args );
-
-}
-add_action( 'loop_start', 'before_photos_list_loop' );
 
 // Queue assets
 add_action( 'wp_enqueue_scripts', 'pgpt_project_register' );
