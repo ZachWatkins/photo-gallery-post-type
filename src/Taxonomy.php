@@ -53,6 +53,7 @@ class Taxonomy {
 				'labels' => $labels,
 				'hierarchical' => true,
 				'public' => true,
+				'show_in_rest' => true,
 				'show_in_quick_edit' => true,
 				'show_admin_column' => true,
 				'rewrite' => array( 'slug' => $slug )
