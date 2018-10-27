@@ -18,7 +18,7 @@ if( !empty( $albums ) ){
 			$term->title
 		);
 
-		?><h2><a href="<?php echo $album['link'] ?>"><?php echo $album['thumbnail'] ?><span class="album-name"><?php echo $term->name; ?></span></a></h2><?php
+		?><h2><a href="<?php echo $album['link'] ?>"><span class="album-name"><?php echo $term->name; ?></span><?php echo $album['thumbnail'] ?></a></h2><?php
 
 		?></div><?php
 
