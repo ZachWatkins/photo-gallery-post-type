@@ -111,8 +111,10 @@ class PostListContent {
 					$child_name = get_term($child_id, 'album')->name;
 					$child_albums[] = '<a href="' . get_term_link($child_id) . '">' . $child_name . '</a>';
 				}
+
+				$plural = count($children) > 1 ? 's' : '';
 				
-				$content .= sprintf('<p>Child albums: %s</p>', implode('<br>', $child_albums) );
+				$content .= sprintf('<p>Child album%s: %s</p>', $plural, implode('<br>', $child_albums) );
 			}
 
 		}
