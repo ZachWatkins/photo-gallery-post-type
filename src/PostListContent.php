@@ -23,7 +23,7 @@ class PostListContent {
 
 		global $post;
 
-		if( $post->post_type == $this->slug && is_archive() ){
+		if( $post->post_type == $this->slug && !is_single() ){
 
 			$terms = get_the_taxonomies();
 
