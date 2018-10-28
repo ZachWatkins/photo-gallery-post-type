@@ -140,9 +140,10 @@ class PostListContent {
 
 	public function before_photos_list_loop( $wp_query = null ){
 
-		if( is_admin() || is_single() ) return false;
+		if( is_admin() || is_single() || !$wp_query ) return false;
 
 		$taxonomies = get_object_taxonomies( PHOTOPOSTS_POST_TYPE_SLUG );
+
 		$is_photo_post_type = $wp_query->query_vars['post_type'] === PHOTOPOSTS_POST_TYPE_SLUG;
 		$is_photo_term = array_key_exists('taxonomy', $wp_query->query_vars) && in_array( $wp_query->query_vars['taxonomy'], $taxonomies );
 
