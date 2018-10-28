@@ -10,12 +10,27 @@ class PostListContent {
 
 		$this->slug = $slug;
 
+		add_filter( 'body_class', array( $this, 'search_results_class' ) );
 		add_filter( 'the_content', array( $this, 'content' ), 10 );
 		add_filter( 'post_thumbnail_size', array( $this, 'thumbnail_size' ), 10, 2 );
 		add_filter( 'get_the_archive_description', array( $this, 'show_child_album_thumbnails' ), 11 );
 
 		// Give developers an action hook before this post type shows a group of posts
 		add_action( 'loop_start', array( $this, 'before_photos_list_loop' ) );
+
+	}
+
+	public function search_results_class( $classes ){
+
+		global $post;
+
+		if( $post->post_type == $this->slug && !is_single() ){
+
+			$classes[] = 'photo-post-list';
+
+		}
+
+		return $classes;
 
 	}
 
