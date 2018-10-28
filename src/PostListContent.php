@@ -144,7 +144,18 @@ class PostListContent {
 
 		$taxonomies = get_object_taxonomies( PHOTOPOSTS_POST_TYPE_SLUG );
 
-		$is_photo_post_type = $wp_query->query_vars['post_type'] === PHOTOPOSTS_POST_TYPE_SLUG;
+		$post_type = $wp_query->query_vars['post_type'];
+		$is_photo_post_type = false;
+		if( $post_type === PHOTOPOSTS_POST_TYPE_SLUG ){
+
+			$is_photo_post_type = true;
+
+		} else if( is_array( $post_type ) && sizeof( $post_type ) === 1 && in_array( PHOTOPOSTS_POST_TYPE_SLUG, $post_type ) ){
+
+			$is_photo_post_type = true;
+
+		}
+
 		$is_photo_term = array_key_exists('taxonomy', $wp_query->query_vars) && in_array( $wp_query->query_vars['taxonomy'], $taxonomies );
 
 		if( !$is_photo_post_type && !$is_photo_term ){
