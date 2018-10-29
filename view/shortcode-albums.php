@@ -6,7 +6,7 @@ if( !empty( $albums ) ){
 
 	foreach ($albums as $index => $term) {
 
-		?><div class="item"><?php 
+		?><div class="item entry"><?php 
 
 		$album_fields = get_field('thumbnail', 'album_' . $term->term_id);
 
