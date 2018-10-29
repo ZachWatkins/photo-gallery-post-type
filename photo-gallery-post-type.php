@@ -94,6 +94,10 @@ add_action( 'init', function(){
     PHOTOPOSTS_TEMPLATE_PATH . '/shortcode-albums.php'
   );
 
+  if( function_exists('genesis') ){
+    add_post_type_support( PHOTOPOSTS_POST_TYPE_SLUG, 'genesis-cpt-archives-settings' );
+  }
+
 });
 
 // Queue assets
