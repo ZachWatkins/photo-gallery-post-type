@@ -104,24 +104,40 @@ add_action( 'init', function(){
 
 });
 
-// Queue assets
+// Queue public assets
 add_action( 'wp_enqueue_scripts', 'pgpt_project_register' );
 add_action( 'wp_enqueue_scripts', 'pgpt_project_enqueue' );
 
 function pgpt_project_register(){
 
-    wp_register_style(
-        'photo-posts-styles',
-        PHOTOPOSTS_DIR_URL . 'css/photo-posts.css',
-        array(),
-        filemtime(PHOTOPOSTS_DIR_PATH . 'css/photo-posts.css'),
-        'screen'
-    );
+  wp_register_style(
+    'photo-posts-styles',
+    PHOTOPOSTS_DIR_URL . 'css/photo-posts.css',
+    array(),
+    filemtime(PHOTOPOSTS_DIR_PATH . 'css/photo-posts.css'),
+    'screen'
+  );
 
 }
 
 function pgpt_project_enqueue(){
 
-    wp_enqueue_style( 'photo-posts-styles' );
+  wp_enqueue_style( 'photo-posts-styles' );
+
+}
+
+// Queue admin assets
+add_action( 'admin_enqueue_scripts', 'pgpt_project_admin_enqueue' );
+function pgpt_project_admin_enqueue(){
+
+  wp_register_style(
+      'photo-posts-admin-styles',
+      PHOTOPOSTS_DIR_URL . 'css/admin.css',
+      array(),
+      filemtime(PHOTOPOSTS_DIR_PATH . 'css/admin.css'),
+      'screen'
+  );
+
+  wp_enqueue_style( 'photo-posts-admin-styles' );
 
 }

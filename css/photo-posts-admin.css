@@ -1,0 +1,3 @@
+.post-type-photo-post.taxonomy-album #wpbody-content #acf-form-data + h2 {
+	display: none;
+}
