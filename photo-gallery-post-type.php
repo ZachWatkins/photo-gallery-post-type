@@ -139,9 +139,9 @@ function pgpt_project_admin_enqueue(){
 
   wp_register_style(
       'photo-posts-admin-styles',
-      PHOTOPOSTS_DIR_URL . 'css/admin.css',
+      PHOTOPOSTS_DIR_URL . 'css/photo-posts-admin.css',
       array(),
-      filemtime(PHOTOPOSTS_DIR_PATH . 'css/admin.css'),
+      filemtime(PHOTOPOSTS_DIR_PATH . 'css/photo-posts-admin.css'),
       'screen'
   );
 
