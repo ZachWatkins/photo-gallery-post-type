@@ -36,11 +36,15 @@ function photoposts_activation() {
 
 add_action( 'init', function(){
 
+  if ( class_exists( 'acf' ) ) {
+    require_once(PHOTOPOSTS_DIR_PATH . 'fields/album_tax_fields.php');
+  }
+
   // Add taxonomies
   $taxonomy_album = new \PhotoPosts\Taxonomy(
     'Album', 'album', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => true, 'show_admin_column' => true) );
-  
+
   $taxonomy_color = new \PhotoPosts\Taxonomy(
     'Color', 'color', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => false) );
