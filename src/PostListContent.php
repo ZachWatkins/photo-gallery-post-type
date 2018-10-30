@@ -125,17 +125,15 @@ class PostListContent {
 				foreach ($children as $child_id) {
 					$child_name = get_term($child_id, 'album')->name;
 					$child_fields = get_field('thumbnail', 'album_' . $child_id);
-					$child_image = sprintf(
-						'<img src="%s" alt="%s">',
-						$child_fields['sizes']['photo-posts-preview'],
-						$child_name
-					);
-					$child_albums[] = '<a href="' . get_term_link($child_id) . '">' . $child_image . '</a>';
+					$child_image_id = $child_fields['ID'];
+					$child_image = wp_get_attachment_image( $child_image_id, 'photo-posts-preview' );
+					$child_link = get_term_link($child_id);
+					$child_albums[] = "<div class=\"child-album\"><a href=\"{$child_link}\">{$child_image}<br>{$child_name}</a></div>";
 				}
 
 				$plural = count($children) > 1 ? 's' : '';
 
-				$content .= sprintf('<p>Child album%s: %s</p>', $plural, implode(', ', $child_albums) );
+				$content .= sprintf('<p class="child-album-list">Child album%s:</p><div class="child-album-list">%s</div>', $plural, implode('', $child_albums) );
 
 			}
 
