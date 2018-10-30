@@ -43,7 +43,7 @@ class PostListContent {
 			$terms = get_the_taxonomies();
 
 			$desc = $content;
-			
+
 			$size = '';
 			if( array_key_exists('size', $terms) ){
 				$size = preg_replace('/^Sizes: |\.$/', '', $terms['size']);
@@ -95,7 +95,7 @@ class PostListContent {
 	}
 
 
-  
+
 	public function thumbnail_size( $size, $id ){
 
 		global $post;
@@ -124,12 +124,19 @@ class PostListContent {
 
 				foreach ($children as $child_id) {
 					$child_name = get_term($child_id, 'album')->name;
-					$child_albums[] = '<a href="' . get_term_link($child_id) . '">' . $child_name . '</a>';
+					$child_fields = get_field('thumbnail', 'album_' . $child_id);
+					$child_image = sprintf(
+						'<img src="%s" alt="%s">',
+						$child_fields['sizes']['photo-posts-preview'],
+						$child_name
+					);
+					$child_albums[] = '<a href="' . get_term_link($child_id) . '">' . $child_image . '</a>';
 				}
 
 				$plural = count($children) > 1 ? 's' : '';
-				
+
 				$content .= sprintf('<p>Child album%s: %s</p>', $plural, implode(', ', $child_albums) );
+
 			}
 
 		}
