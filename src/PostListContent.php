@@ -134,12 +134,12 @@ class PostListContent {
 					$child_image_id = $child_fields['ID'];
 					$child_image = wp_get_attachment_image( $child_image_id, 'photo-posts-preview' );
 					$child_link = get_term_link($child_id);
-					$child_albums[] = "<div class=\"child-album\"><a href=\"{$child_link}\">{$child_image}<br>{$child_name}</a></div>";
+					$child_albums[] = "<div class=\"child-album\"><a href=\"{$child_link}\">{$child_name}<br>{$child_image}</a></div>";
 				}
 
 				$plural = count($children) > 1 ? 's' : '';
 
-				$content .= sprintf('<p class="child-album-list">Child album%s:</p><div class="child-album-list">%s</div>', $plural, implode('', $child_albums) );
+				$content .= sprintf('<h2 class="child-album-list">Child album%s</h2><div class="child-album-list">%s</div>', $plural, implode('', $child_albums) );
 
 			}
 
