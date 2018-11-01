@@ -15,7 +15,7 @@ class PostListContent {
 		add_filter( 'post_thumbnail_size', array( $this, 'thumbnail_size' ), 10, 2 );
 
 		// Add child album thumbnails to page
-		if( !post_type_supports($this->slug, 'genesis-cpt-archives-settings') ){
+		if( !has_action('genesis_before_loop', 'genesis_do_taxonomy_title_description') ){
 			add_filter( 'get_the_archive_description', array( $this, 'show_child_album_thumbnails' ), 11 );
 		} else {
 			add_filter( 'genesis_term_intro_text_output', array( $this, 'show_child_album_thumbnails' ), 11 );
