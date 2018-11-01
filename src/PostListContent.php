@@ -30,7 +30,7 @@ class PostListContent {
 
 		global $post;
 
-		if( $post->post_type == $this->slug && !is_single() ){
+		if( $post && $post->post_type == $this->slug && !is_single() ){
 
 			$classes[] = 'photo-post-list';
 
