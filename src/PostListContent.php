@@ -18,7 +18,7 @@ class PostListContent {
 		if( !post_type_supports($this->slug, 'genesis-cpt-archives-settings') ){
 			add_filter( 'get_the_archive_description', array( $this, 'show_child_album_thumbnails' ), 11 );
 		} else {
-			add_filter( 'genesis_archive_title_descriptions', array( $this, 'show_child_album_thumbnails' ), 11 );
+			add_filter( 'genesis_term_intro_text_output', array( $this, 'show_child_album_thumbnails' ), 11 );
 		}
 
 		// Give developers an action hook before this post type shows a group of posts
