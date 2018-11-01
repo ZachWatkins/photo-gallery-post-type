@@ -46,7 +46,7 @@ add_action( 'init', function(){
     array(
       'hierarchical' => true,
       'rewrite' => array(
-        'slug' => $slug,
+        'slug' => PHOTOPOSTS_POST_TYPE_SLUG,
         'hierarchical' => true
       )
     )
