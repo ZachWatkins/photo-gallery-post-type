@@ -45,8 +45,8 @@ add_action( 'init', function(){
     'Album', 'album', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array(
       'hierarchical' => true,
+      'publicly_queryable' => true,
       'rewrite' => array(
-        'slug' => PHOTOPOSTS_POST_TYPE_SLUG,
         'hierarchical' => true
       )
     )
@@ -108,6 +108,8 @@ add_action( 'init', function(){
   if( function_exists('genesis') ){
     add_post_type_support( PHOTOPOSTS_POST_TYPE_SLUG, 'genesis-cpt-archives-settings' );
   }
+
+  flush_rewrite_rules();
 
 });
 

@@ -43,17 +43,20 @@ class PostType {
 
 		// Post type arguments
 		$args = array(
-			'labels' => $labels,
-			'public' => true,
-			'rewrite' => array(
-				'slug' => $slug
-			),
-			'supports' => $supports,
-			'has_archive' => true,
-			'menu_icon' => $icon,
-			'taxonomies' => $taxonomies,
 			'can_export' => true,
-			'show_in_rest' => true
+			'has_archive' => true,
+			'labels' => $labels,
+			'menu_icon' => $icon,
+			'menu_position' => 5,
+			'public' => true,
+			'publicly_queryable' => true,
+			'show_in_rest' => true,
+			'show_in_menu' => true,
+			'show_in_admin_bar' => true,
+			'show_in_nav_menus' => true,
+			'show_ui' => true,
+			'supports' => $supports,
+			'taxonomies' => $taxonomies
 		);
 
 		// Register the Reports post type
