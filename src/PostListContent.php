@@ -153,9 +153,7 @@ class PostListContent {
 
 		if( is_admin() || is_single() || !$wp_query ) return false;
 
-		$post_types = get_query_var('post_types', false);
-
-		if( $post_types !== 'photo-post' || array_key_exists('s', $wp_query->query) ) return false;
+		if( array_key_exists('s', $wp_query->query) ) return false;
 		
 		$taxonomies = get_object_taxonomies( PHOTOPOSTS_POST_TYPE_SLUG );
 
