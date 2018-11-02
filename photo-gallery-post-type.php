@@ -109,8 +109,6 @@ add_action( 'init', function(){
     add_post_type_support( PHOTOPOSTS_POST_TYPE_SLUG, 'genesis-cpt-archives-settings' );
   }
 
-  flush_rewrite_rules();
-
 });
 
 // Queue public assets
