@@ -111,6 +111,24 @@ add_action( 'init', function(){
 
 });
 
+// Add thumbnail to photo post list page
+function set_custom_edit_photo_post_columns( $columns ) {
+  $value = array('photo' => __( 'Photo', PHOTOPOSTS_NAMESPACE ) );
+  $oldColumns = $columns;
+  $columns = array_slice( $oldColumns, 0, 1, true ) + $value + array_slice( $oldColumns, 1, NULL, true );
+
+  return $columns;
+}
+
+function custom_photo_post_column( $column, $post_id ) {
+  if( $column == 'photo' ){
+    echo get_the_post_thumbnail( $post_id, 'thumbnail' );
+  }
+}
+
+add_filter( 'manage_' . PHOTOPOSTS_POST_TYPE_SLUG . '_posts_columns', 'set_custom_edit_photo_post_columns' );
+add_action( 'manage_' . PHOTOPOSTS_POST_TYPE_SLUG . '_posts_custom_column' , 'custom_photo_post_column', 10, 2 );
+
 // Queue public assets
 add_action( 'wp_enqueue_scripts', 'pgpt_project_register' );
 add_action( 'wp_enqueue_scripts', 'pgpt_project_enqueue' );
