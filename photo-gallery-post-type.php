@@ -111,7 +111,7 @@ add_action( 'init', function(){
 
 });
 
-// Add thumbnail to photo post list page
+// Customize photo post list page in admin
 function set_custom_edit_photo_post_columns( $columns ) {
   $value = array('photo' => __( 'Photo', PHOTOPOSTS_NAMESPACE ) );
   $oldColumns = $columns;
@@ -126,8 +126,18 @@ function custom_photo_post_column( $column, $post_id ) {
   }
 }
 
+function register_date_column_for_issues_sortable($columns) {
+  $columns['taxonomy-album'] = 'taxonomy-album';
+  $columns['taxonomy-color'] = 'taxonomy-color';
+  $columns['taxonomy-subject'] = 'taxonomy-subject';
+  $columns['taxonomy-size'] = 'taxonomy-size';
+  $columns['taxonomy-orientation'] = 'taxonomy-orientation';
+  return $columns;
+}
+
 add_filter( 'manage_' . PHOTOPOSTS_POST_TYPE_SLUG . '_posts_columns', 'set_custom_edit_photo_post_columns' );
 add_action( 'manage_' . PHOTOPOSTS_POST_TYPE_SLUG . '_posts_custom_column' , 'custom_photo_post_column', 10, 2 );
+add_filter( 'manage_edit-' . PHOTOPOSTS_POST_TYPE_SLUG . '_sortable_columns', 'register_date_column_for_issues_sortable' );
 
 // Queue public assets
 add_action( 'wp_enqueue_scripts', 'pgpt_project_register' );
