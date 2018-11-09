@@ -112,7 +112,7 @@ add_action( 'init', function(){
 });
 
 // Customize photo post list page in admin
-function set_custom_edit_photo_post_columns( $columns ) {
+function pgpt_set_custom_photo_post_columns( $columns ) {
   $value = array('photo' => __( 'Photo', PHOTOPOSTS_NAMESPACE ) );
   $oldColumns = $columns;
   $columns = array_slice( $oldColumns, 0, 1, true ) + $value + array_slice( $oldColumns, 1, NULL, true );
@@ -120,13 +120,13 @@ function set_custom_edit_photo_post_columns( $columns ) {
   return $columns;
 }
 
-function custom_photo_post_column( $column, $post_id ) {
+function pgpt_custom_photo_post_column( $column, $post_id ) {
   if( $column == 'photo' ){
     echo get_the_post_thumbnail( $post_id, 'thumbnail' );
   }
 }
 
-function register_date_column_for_issues_sortable($columns) {
+function pgpt_register_sortable_columns($columns) {
   $columns['taxonomy-album'] = 'taxonomy-album';
   $columns['taxonomy-color'] = 'taxonomy-color';
   $columns['taxonomy-subject'] = 'taxonomy-subject';
@@ -135,9 +135,40 @@ function register_date_column_for_issues_sortable($columns) {
   return $columns;
 }
 
-add_filter( 'manage_' . PHOTOPOSTS_POST_TYPE_SLUG . '_posts_columns', 'set_custom_edit_photo_post_columns' );
-add_action( 'manage_' . PHOTOPOSTS_POST_TYPE_SLUG . '_posts_custom_column' , 'custom_photo_post_column', 10, 2 );
-add_filter( 'manage_edit-' . PHOTOPOSTS_POST_TYPE_SLUG . '_sortable_columns', 'register_date_column_for_issues_sortable' );
+function pgpt_taxonomy_orderby( $orderby, $wp_query ) {
+  global $wpdb;
+
+  $taxonomies = array(
+    'taxonomy-album' => 'Album',
+    'taxonomy-color' => 'Color',
+    'taxonomy-subject' => 'Subject',
+    'taxonomy-size' => 'Size',
+    'taxonomy-orientation' => 'Orientation'
+  );
+
+  if ( isset( $wp_query->query['orderby'] ) && array_key_exists($wp_query->query['orderby'], $taxonomies) ) {
+    $tax_key = $wp_query->query['orderby'];
+    $taxonomy = $taxonomies[ $tax_key ];
+    
+    $orderby = "(
+      SELECT GROUP_CONCAT(name ORDER BY name ASC)
+      FROM $wpdb->term_relationships
+      INNER JOIN $wpdb->term_taxonomy USING (term_taxonomy_id)
+      INNER JOIN $wpdb->terms USING (term_id)
+      WHERE $wpdb->posts.ID = object_id
+      AND taxonomy = '{$taxonomy}'
+      GROUP BY object_id
+    ) ";
+    $orderby .= ( 'ASC' == strtoupper( $wp_query->get('order') ) ) ? 'ASC' : 'DESC';
+  }
+
+  return $orderby;
+}
+
+add_filter( 'manage_' . PHOTOPOSTS_POST_TYPE_SLUG . '_posts_columns', 'pgpt_set_custom_photo_post_columns' );
+add_action( 'manage_' . PHOTOPOSTS_POST_TYPE_SLUG . '_posts_custom_column' , 'pgpt_custom_photo_post_column', 10, 2 );
+add_filter( 'manage_edit-' . PHOTOPOSTS_POST_TYPE_SLUG . '_sortable_columns', 'pgpt_register_sortable_columns' );
+add_filter( 'posts_orderby', 'pgpt_taxonomy_orderby', 10, 2 );
 
 // Queue public assets
 add_action( 'wp_enqueue_scripts', 'pgpt_project_register' );
