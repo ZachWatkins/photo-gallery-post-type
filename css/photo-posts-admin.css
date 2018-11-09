@@ -1,3 +1,8 @@
 .post-type-photo-post.taxonomy-album #wpbody-content #acf-form-data + h2 {
 	display: none;
 }
+
+.post-type-photo-post #the-list .photo.column-photo img {
+	width: 100%;
+	height: auto;
+}
