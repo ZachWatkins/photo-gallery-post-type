@@ -28,7 +28,7 @@ if( !empty( $albums ) ){
 		if( is_user_logged_in() ){
 			$edit_term = sprintf( '<a class="photo-album-thumbnail-edit" href="%s">%s</a>',
 				get_edit_tag_link($term->term_id, 'album', 'photo-post'),
-				'Edit Album Thumbnail'
+				'(Edit Album)'
 			);
 			echo $edit_term;
 		}

@@ -94,6 +94,11 @@ class PostListContent {
 
 			$content = apply_filters( 'photo-gallery-post-archive-content', $content, $desc, $dimensions, $subject, $color );
 
+			if( is_user_logged_in() ){
+				$edit_link = sprintf( '<a class="photo-post-edit-link" href="%s">(Edit photo)</a>', get_edit_post_link() );
+				$content = $edit_link . $content;
+			}
+
 		}
 
 		return $content;
@@ -129,12 +134,16 @@ class PostListContent {
 				$child_albums = array();
 
 				foreach ($children as $child_id) {
-					$child_name = get_term($child_id, 'album')->name;
+					$child_term = get_term($child_id, 'album');
+					$child_name = $child_term->name;
 					$child_fields = get_field('thumbnail', 'album_' . $child_id);
 					$child_image_id = $child_fields['ID'];
 					$child_image = wp_get_attachment_image( $child_image_id, 'photo-posts-preview' );
 					$child_link = get_term_link($child_id);
-					$child_albums[] = "<div class=\"child-album\"><a href=\"{$child_link}\">{$child_name}<br>{$child_image}</a></div>";
+					$child_edit = get_edit_tag_link($child_id, 'album', 'photo-post');
+					$child_edit_link = !is_user_logged_in() ? '' : "<a class=\"photo-album-thumbnail-edit\" href=\"{$child_edit}\">(Edit Album)</a>";
+
+					$child_albums[] = "<div class=\"child-album\"><a href=\"{$child_link}\">{$child_name}<br>{$child_image}</a>{$child_edit_link}</div>";
 				}
 
 				$plural = count($children) > 1 ? 's' : '';

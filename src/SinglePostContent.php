@@ -69,6 +69,11 @@ class SinglePostContent {
 				$color,
 				$content
 			);
+			
+			if( is_user_logged_in() ){
+				$edit_link = sprintf( '<a class="photo-post-edit-link" href="%s">(Edit photo)</a>', get_edit_post_link() );
+				$content = $edit_link . $content;
+			}
 
 		}
 
