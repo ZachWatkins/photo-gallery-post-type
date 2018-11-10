@@ -68,6 +68,14 @@ add_action( 'init', function(){
     'Orientation', 'orientation', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
     array('hierarchical' => false) );
 
+  $additional_taxonomies = apply_filters( PHOTOPOSTS_POST_TYPE_SLUG . '_additional_taxonomies', array() );
+
+  foreach ($additional_taxonomies as $key => $value) {
+    new \PhotoPosts\Taxonomy(
+    $key, strtolower($key), PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE,
+    $value );
+  }
+
   // Add custom post type
   $post_type = new \PhotoPosts\PostType(
     'Photo', PHOTOPOSTS_POST_TYPE_SLUG, PHOTOPOSTS_NAMESPACE, array(
@@ -127,24 +135,25 @@ function pgpt_custom_photo_post_column( $column, $post_id ) {
 }
 
 function pgpt_register_sortable_columns($columns) {
-  $columns['taxonomy-album'] = 'taxonomy-album';
-  $columns['taxonomy-color'] = 'taxonomy-color';
-  $columns['taxonomy-subject'] = 'taxonomy-subject';
-  $columns['taxonomy-size'] = 'taxonomy-size';
-  $columns['taxonomy-orientation'] = 'taxonomy-orientation';
+  
+  $taxes = get_object_taxonomies( PHOTOPOSTS_POST_TYPE_SLUG );
+
+  foreach ($taxes as $key => $value) {
+    $columns["taxonomy-$value"] = "taxonomy-$value";
+  }
+
   return $columns;
 }
 
 function pgpt_taxonomy_orderby( $orderby, $wp_query ) {
   global $wpdb;
-
-  $taxonomies = array(
-    'taxonomy-album' => 'Album',
-    'taxonomy-color' => 'Color',
-    'taxonomy-subject' => 'Subject',
-    'taxonomy-size' => 'Size',
-    'taxonomy-orientation' => 'Orientation'
-  );
+  
+  $taxes = get_object_taxonomies( PHOTOPOSTS_POST_TYPE_SLUG, 'objects' );
+  $taxonomies = array();
+  
+  foreach ($taxes as $key => $value) {
+    $taxonomies["taxonomy-$key"] = $value->labels->singular_name;
+  }
 
   if ( isset( $wp_query->query['orderby'] ) && array_key_exists($wp_query->query['orderby'], $taxonomies) ) {
     $tax_key = $wp_query->query['orderby'];
