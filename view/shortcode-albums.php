@@ -23,9 +23,17 @@ if( !empty( $albums ) ){
 			$sizes
 		);
 
-		?><h2><a href="<?php echo $album['link'] ?>"><?php echo $term->name; ?><br><?php echo $album['thumbnail'] ?></a></h2><?php
+		?><h2><a href="<?php echo $album['link'] ?>"><?php echo $term->name; ?><br><?php echo $album['thumbnail'] ?></a><?php
+		
+		if( is_user_logged_in() ){
+			$edit_term = sprintf( '<a class="photo-album-thumbnail-edit" href="%s">%s</a>',
+				get_edit_tag_link($term->term_id, 'album', 'photo-post'),
+				'Edit Album Thumbnail'
+			);
+			echo $edit_term;
+		}
 
-		?></div><?php
+		?></h2></div><?php
 
 	}
 

@@ -13,3 +13,7 @@
 	display: inline-block;
 	margin-top: 1rem;
 }
+
+.photo-album-thumbnail-edit {
+	font-size: 16px;
+}
